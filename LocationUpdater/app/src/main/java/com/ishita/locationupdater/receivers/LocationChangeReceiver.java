@@ -34,39 +34,33 @@ public class LocationChangeReceiver extends BroadcastReceiver {
                     Log.d(Category.CATEGORY_RECEIVER, "LocationChangeReceiver onReceive latest location is " + lastLocation.toString());
                     LocationInformation information = new LocationInformation();
                     information.setAddressParams(lastLocation.getLatitude(), lastLocation.getLongitude(), context);
-                    String jsonData = JSONUtils.loadDataFromJSON(context);
                     ArrayList<LocationInformation> locationInformation = null;
-                    if (!TextUtils.isEmpty(jsonData)) {
-                        locationInformation = JSONUtils.getArrayListFromJSONData(context, jsonData);
-                    }
+                    locationInformation = JSONUtils.getArrayListFromJSONData(context);
 
-                    if(locationInformation == null){
+                    if (locationInformation == null) {
                         locationInformation = new ArrayList<>();
                     }
 
                     if (lastLoggedLocation == null) {
                         lastLoggedLocation = lastLocation;
                         locationInformation.add(information);
-                        Log.d(Category.CATEGORY_RECEIVER,"LocationChangeReceiver onReceive adding first location!");
-                        JSONUtils.saveData(context,locationInformation);
+                        Log.d(Category.CATEGORY_RECEIVER, "LocationChangeReceiver onReceive adding first location!");
+                        JSONUtils.saveData(context, locationInformation);
                     } else {
-                        Log.d(Category.CATEGORY_RECEIVER,"LocationChangeReceiver onReceive distance between " +
-                                "current and last logged location is "+lastLoggedLocation.distanceTo(lastLocation)+" meters!");
-                        if(lastLoggedLocation.distanceTo(lastLocation) > AppConstants.LOCATION_DISTANCE_THRESHOLD){
+                        Log.d(Category.CATEGORY_RECEIVER, "LocationChangeReceiver onReceive distance between " +
+                                "current and last logged location is " + lastLoggedLocation.distanceTo(lastLocation) + " meters!");
+                        if (lastLoggedLocation.distanceTo(lastLocation) > AppConstants.LOCATION_DISTANCE_THRESHOLD) {
                             lastLoggedLocation = lastLocation;
                             locationInformation.add(information);
-                            Log.d(Category.CATEGORY_RECEIVER,"LocationChangeReceiver onReceive adding next location!");
-                            JSONUtils.saveData(context,locationInformation);
-
-                        }else {
-                            Log.d(Category.CATEGORY_RECEIVER,"LocationChangeReceiver onReceive current location and last " +
+                            Log.d(Category.CATEGORY_RECEIVER, "LocationChangeReceiver onReceive adding next location!");
+                            JSONUtils.saveData(context, locationInformation);
+                        } else {
+                            Log.d(Category.CATEGORY_RECEIVER, "LocationChangeReceiver onReceive current location and last " +
                                     "logged location are within 100 m");
                         }
                     }
                 }
             }
-
         }
-
     }
 }

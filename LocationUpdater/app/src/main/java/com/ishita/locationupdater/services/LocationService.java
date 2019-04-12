@@ -43,7 +43,8 @@ public class LocationService extends JobService implements GoogleApiClient.Conne
     public boolean onStartJob(JobParameters params) {
         Log.d(Category.CATEGORY_SERVICES, "LocationService onStartJob ");
         if (!JSONUtils.isFilePresent(this)) {
-            JSONUtils.create(this);
+            boolean isCreated = JSONUtils.create(this);
+            Log.d(Category.CATEGORY_GENERAL,"LocationService onStartJob file created : "+isCreated);
         }
         mLocationClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -82,6 +83,7 @@ public class LocationService extends JobService implements GoogleApiClient.Conne
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             Toast.makeText(this, R.string.lbl_wrng_location_permission, Toast.LENGTH_SHORT).show();
+
             return;
         }
         Intent intent = new Intent(this, LocationChangeReceiver.class);

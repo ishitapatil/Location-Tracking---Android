@@ -1,6 +1,16 @@
 <resources>
-    <string name="app_name">LocationUpdater</string>
+    <string name="app_name">Location Updates Tracker</string>
     <string name="lbl_location_service">Location service</string>
     <string name="msg_connection_failed">Connection Failed!</string>
     <string name="lbl_wrng_location_permission">Location permissions not granted!</string>
+    <string name="lbl_city_name">City name : %s</string>
+    <string name="lbl_city_state">%s, %s</string>
+    <string name="msg_tracker_enabled">Tracker enabled!</string>
+    <string name="msg_tracker_disabled">Tracker disabled!</string>
+    <string name="new_location">New location detected. %s</string>
+    <string name="lbl_co_ordinates">Co-ordinates :</string>
+    <string name="lbl_address">Address :</string>
+    <string name="lbl_time_of_visit">Time of visit :</string>
+    <string name="lbl_lat_long">%f, %f</string>
+    <string name="title_info">Info</string>
 </resources>

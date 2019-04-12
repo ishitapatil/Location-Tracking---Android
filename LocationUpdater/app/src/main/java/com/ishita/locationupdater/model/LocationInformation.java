@@ -102,10 +102,9 @@ public class LocationInformation {
             country = obj.getCountryName();
             city = obj.getSubAdminArea();
             state = obj.getAdminArea();
-            Log.d("LocationResultHelper", "getAddress ");
+            locationName = obj.getFeatureName();
             addressLine = obj.getAddressLine(0);
             CurrentLocationInformation.getInstance().setInformation(this);
-            Log.d(Category.CATEGORY_GENERAL, "LocationInformation setAddressParams addressLine " + addressLine);
         } catch (Exception e) {
             e.printStackTrace();
         }
