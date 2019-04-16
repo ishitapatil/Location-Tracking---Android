@@ -81,9 +81,10 @@ public class LocationActivity extends Activity {
     public void startJob(){
         ComponentName componentName = new ComponentName(this, LocationService.class);
         JobInfo jobInfo = new JobInfo.Builder(1322,componentName)
-//                .setRequiredNetworkType()
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NONE)
                 .setPersisted(true)
-                .setPeriodic(10000)
+//                .setPeriodic(10000)
+                .setMinimumLatency(10000)
                 .build();
 
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);

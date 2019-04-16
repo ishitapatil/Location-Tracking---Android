@@ -35,8 +35,10 @@ public class LocationService extends JobService implements GoogleApiClient.Conne
     LocationRequest mLocationRequest = new LocationRequest();
     private static final long LOCATION_INTERVAL = 10 * 1000;
     private static final long FASTEST_LOCATION_INTERVAL = LOCATION_INTERVAL / 2;
+    private static boolean isServiceOn =false;
 
     public LocationService() {
+        Log.d(Category.CATEGORY_SERVICES,"LocationService LocationService");
     }
 
     @Override
@@ -94,11 +96,12 @@ public class LocationService extends JobService implements GoogleApiClient.Conne
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.d(Category.CATEGORY_SERVICES,"LocationService onConnectionSuspended ");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(Category.CATEGORY_SERVICES,"LocationService onConnectionFailed");
         Toast.makeText(this, R.string.msg_connection_failed,Toast.LENGTH_SHORT).show();
     }
 }

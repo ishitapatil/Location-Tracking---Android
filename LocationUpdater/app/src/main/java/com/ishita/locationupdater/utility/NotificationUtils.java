@@ -1,12 +1,18 @@
 package com.ishita.locationupdater.utility;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
+import android.media.RingtoneManager;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.ishita.locationupdater.R;
 import com.ishita.locationupdater.model.LocationInformation;
@@ -31,17 +37,36 @@ public class NotificationUtils {
             PendingIntent notificationPendingIntent =
                     stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            Notification.Builder notificationBuilder = new Notification.Builder(context)
+        NotificationCompat.Builder builder = null;
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+
+            NotificationChannel channel = new NotificationChannel(context.getString(R.string.channel_name),context.getString(R.string.channel_name),NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+            builder = new NotificationCompat.Builder(context,channel.getId())
                     .setContentTitle(context.getString(R.string.app_name))
                     .setContentText(context.getString(R.string.new_location,info.getLocationName()))
-                    .setSmallIcon(R.drawable.logo)
                     .setAutoCancel(true)
-                    .setContentIntent(notificationPendingIntent);
+                    .setSmallIcon(R.drawable.logo)
+                    .setLargeIcon(((BitmapDrawable) context.getResources().getDrawable(R.drawable.logo)).getBitmap())
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                    .setContentIntent(notificationPendingIntent)
+                    .setChannelId(channel.getId());
+        } else {
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(
-                Context.NOTIFICATION_SERVICE);
-
-        Objects.requireNonNull(notificationManager).notify(1,notificationBuilder.build());
+            builder =  new NotificationCompat.Builder(context)
+                    .setContentTitle(context.getString(R.string.app_name))
+                    .setContentText(context.getString(R.string.new_location,info.getLocationName()))
+                    .setAutoCancel(true)
+                    .setSmallIcon(R.drawable.logo)
+                    .setLargeIcon(((BitmapDrawable) context.getResources().getDrawable(R.drawable.logo)).getBitmap())
+                    .setContentIntent(notificationPendingIntent)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            Log.d("FragmentEventDetails", "scheduleNotification notification builder built");
+        }
+        Notification notification = builder.build();
+        Objects.requireNonNull(notificationManager).notify(1,notification);
         }
 
 }
